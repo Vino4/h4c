@@ -18,6 +18,7 @@ const mapDispatchToProps = (dispatch) => ({
     setFilter: Actions.filterParticipantsActions.setFilter(dispatch),
     toggleLock: Actions.groupLockActions.toggleLock(dispatch),
     emailParticipants: Actions.emailParticipantsActions.emailParticipants(dispatch),
+    fetchAgencies: Actions.fetchAgenciesActions.fetchAgencies(dispatch),
 });
 
 const mapStateToProps = (state, ownProps) => {
@@ -35,7 +36,11 @@ const mapStateToProps = (state, ownProps) => {
         filter: state.activity.get("filter"),
 
         isRunningAlgorithm: state.activity.get("isRunningAlgorithm"),
+
+        agencies: state.activity.get("agencies"),
+
+        isLoading: state.activity.get("isLoading"),
     }
 };
 
-export default UserIsAuthenticated(connect(mapStateToProps, mapDispatchToProps)(ActivityView));
+export default connect(mapStateToProps, mapDispatchToProps)(ActivityView);

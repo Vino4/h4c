@@ -4,11 +4,12 @@ const express = require('express')
     , authenticationMiddleware = require("../../config/main").authenticationMiddleware;
 
 // the second argument is the authentication middleware, has to be passed
-agenciesRouter.get('/', authenticationMiddleware, agenciesControllers.getAllAgenciesController);
+agenciesRouter.get('/', agenciesControllers.getAllAgenciesController);
+agenciesRouter.get('/search/:searchText', agenciesControllers.searchAgenciesController);
 agenciesRouter.post('/', agenciesControllers.createAgencyController);
 
 // operations regarding to a specific agency
-agenciesRouter.get('/:agencyId', authenticationMiddleware, agenciesControllers.getOneAgencyController);
+agenciesRouter.get('/:agencyId', agenciesControllers.getOneAgencyController);
 agenciesRouter.put('/:agencyId', authenticationMiddleware, agenciesControllers.updateAgencyController);
 agenciesRouter.delete('/:agencyId', authenticationMiddleware, agenciesControllers.deleteAgencyController);
 

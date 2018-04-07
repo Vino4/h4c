@@ -5,6 +5,7 @@ import * as generateGroupAssignmentActions from "./generateGroupAssignmentAction
 import * as userMatchingActions from "./userMatchingActions"
 import * as groupLockActions from "./groupLockActions"
 import * as filterParticipantsActions from "./filterParticipantsActions"
+import * as fetchAgenciesActions from "./fetchAgenciesActions"
 
 export {
     fetchParticipantListActions,
@@ -13,5 +14,6 @@ export {
     userMatchingActions,
     groupLockActions,
     emailParticipantsActions,
-    filterParticipantsActions
+    filterParticipantsActions,
+    fetchAgenciesActions
 }

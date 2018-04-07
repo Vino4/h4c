@@ -1,7 +1,8 @@
 const express = require('express')
     , signupRouter = express.Router()
-    , signupControllers = require('./controllers');
+    , signupControllers = require('./controllers')
+    , authenticationMiddleware = require("../../../config/main").authenticationMiddleware;
 
-signupRouter.post('/', signupControllers.signupController);
+signupRouter.post('/', authenticationMiddleware, signupControllers.signupController);
 
 module.exports = signupRouter;

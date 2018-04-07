@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const passport = require('passport');
+const bcrypt = require('bcryptjs');
 
 const webpackConfig = require('../config/webpack.config');
 const project = require('../config/project.config');
@@ -23,6 +24,36 @@ mongoose.connect(databaseUrl, function (err, res) {
         console.log("DB CONNECTION FAILED: " + err);
     } else {
         console.log("DB CONNECTION SUCCESS");
+        mongoose.connection.collections['users'].count({}, function(err, count){
+          if (count == 0){
+            console.log( "initializing database...");
+            bcrypt.genSalt(10, function (err, salt) {
+                if (err) {
+                    return next(err);
+                }
+
+                bcrypt.hash("admin", salt, function (err, hash) {
+                    if (err) {
+                        console.log("hash error");
+                        console.log(err);
+                        return err;
+                    }
+
+                    mongoose.connection.collections['users'].insertOne(
+                       {
+                          Name: "Admin",
+                          Email: "admin@whitebirdclinic.org",
+                          Password: hash,
+                          Protected: true
+                       }
+                    );
+                    console.log( "default admin email: admin@whitebirdclinic.org");
+                    console.log( "default admin password: admin");
+                    console.log( "Please change your password as soon as possible!");
+                });
+            });
+          }
+        });
     }
 });
 

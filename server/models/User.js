@@ -5,17 +5,13 @@ const validator = require('validator');
 const Schema = mongoose.Schema;
 
 let UserSchema = Schema({
-    image: {
-        data: Buffer,
-        contentType: String
-    },
-
-    name: {
+    Name: {
         type: String,
-        default: ""
+        default: "",
+        required: true,
     },
 
-    email: {
+    Email: {
         type: String,
         unique: true,
         lowercase: true,
@@ -23,72 +19,36 @@ let UserSchema = Schema({
         default: ""
     },
 
-
-    // isNewOne: {
-    //     type: Boolean,
-    //     required: true,
-    //     default: true,
-    // },
-
-
-    password: {
+    Password: {
         type: String,
         // default: null,
         required: true,
     },
 
-    // automatically sort this array based on its last modified data
-    activities: {
-        type: [{type: Schema.ObjectId, ref: "Activity"}],
-    },
-
-    surveys: {
-        type: [{type: Schema.ObjectId, ref: "Survey"}],
-    },
-
-
-    // every model has this
-    isDeleted: {
+    Protected: {
         type: Boolean,
         default: false,
-        required: true,
     },
 
-    createdAt: {
-        type: Date,
-        default: Date.now,
-        required: true,
-    },
-
-    lastModifiedTime: {
-        type: Date,
-        default: Date.now,
-        required: true
-    }
 });
 
 /* hash password before user saves the password */
 UserSchema.pre('save', function (next) {
     let user = this;
 
-    // update time
-    if (!this.isNew) {
-        user.lastModifiedTime = Date.now();
-    }
-
     // update hashed password if needed
-    if (this.isModified('password') || this.isNew) {
+    if (this.isModified('Password') || this.isNew) {
         bcrypt.genSalt(10, function (err, salt) {
             if (err) {
                 return next(err);
             }
 
-            bcrypt.hash(user.password, salt, function (err, hash) {
+            bcrypt.hash(user.Password, salt, function (err, hash) {
                 if (err) {
                     return next(err);
                 }
 
-                user.password = hash;
+                user.Password = hash;
                 next();
             });
         });
@@ -98,10 +58,9 @@ UserSchema.pre('save', function (next) {
     }
 });
 
-
 /* compare password if user login */
 UserSchema.methods.comparePassword = function (password, callback) {
-    bcrypt.compare(password, this.password, function (err, isMatch) {
+    bcrypt.compare(password, this.Password, function (err, isMatch) {
         if (err) {
             return callback(err);
         }
@@ -111,13 +70,8 @@ UserSchema.methods.comparePassword = function (password, callback) {
 
 UserSchema.methods.getPublicFields = function () {
     return {
-        name: this.name,
-        image: this.image,
-        email: this.email,
-        activities: this.activities,
-        surveys: this.surveys,
-        lastModifiedTime: this.lastModifiedTime,
-        createdAt: this.createdAt,
+        Name: this.name,
+        Email: this.email,
     }
 };
 
@@ -135,23 +89,13 @@ function validateName(name){
     return typeof name === 'string';
 }
 
-function validateImage(image) {
-    return true;
-}
-
 
 function UserLoginInfoValidator(name, email, password) {
     return validateEmail(email) && validatePassword(password);
 }
 
-function UserProfileValidator(name, image) {
-    return validateName(name) && validateImage(image);
-}
-
-
-
 module.exports = {
     User                   :   mongoose.model('User', UserSchema),
-    UserProfileValidator   :   UserProfileValidator,
     UserLoginInfoValidator :   UserLoginInfoValidator,
+    validatePassword       :   validatePassword,
 };

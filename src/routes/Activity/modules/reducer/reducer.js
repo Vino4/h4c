@@ -3,6 +3,28 @@ import * as Actions from "../actions"
 import * as ActionsHandlers from "./actionsHandlers"
 
 const initialState = Map({
+    isLoading: false,
+    failedToLoad: false,
+
+    agencyTemplate: Map({
+
+            Service_Name: "",
+            Other_Names: List([]),
+            Main_Phone: "",
+            Physical_Site_Address: "",
+            Physical_Site_City: "",
+            Physical_Site_State: "",
+            Physical_Site_Zip: "",
+            Web_Address: "",
+            Hours_of_Operation: "",
+            Description_of_Service: "",
+            Tag: "",
+            Sub_Tag: "",
+            _id: ""
+    }),
+
+    agencies: List([]),
+
     currentlyDragging: '',
     isRunningAlgorithm: false,
 
@@ -27,6 +49,14 @@ const initialState = Map({
 
 export default function activityReducer (state = initialState, action) {
     switch(action.type) {
+
+        /* reduce fetch agency actions */
+        case Actions.fetchAgenciesActions.FETCH_AGENCIES:
+            return ActionsHandlers.fetchAgenciesActionsHandlers.handleFetchAgencies(state, action.payload)
+        case Actions.fetchAgenciesActions.FETCH_AGENCIES_SUCCESS:
+            return ActionsHandlers.fetchAgenciesActionsHandlers.handleFetchAgenciesSuccess(state, action.payload)
+        case Actions.fetchAgenciesActions.FETCH_AGENCIES_FAILURE:
+            return ActionsHandlers.fetchAgenciesActionsHandlers.handleFetchAgenciesFailure(state, action.payload)
 
         /* reduce group locks */
         case Actions.groupLockActions.TOGGLE_LOCK:

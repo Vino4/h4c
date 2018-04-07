@@ -7,6 +7,10 @@ userRouter.get('/'
              , authenticationMiddleware
              , userControllers.getUserProfileController);
 
+userRouter.post('/updatePassword'
+             , authenticationMiddleware
+             , userControllers.updateUserPasswordController);
+
 userRouter.put('/'
              , authenticationMiddleware
              , userControllers.updateUserProfileController);

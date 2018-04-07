@@ -3,6 +3,7 @@
 const getAllAgenciesController = require("./getAllAgenciesController");
 const createAgencyController   = require("./createAgencyController");
 const getOneAgencyController   = require("./getOneAgencyController");
+const searchAgenciesController   = require("./searchAgenciesController");
 const deleteAgencyController   = require("./deleteAgencyController");
 const updateAgencyController   = require("./updateAgencyController");
 
@@ -10,8 +11,11 @@ const agenciesControllers = {
     // create an agency
     createAgencyController,
 
-    // get a list of agencies 
+    // get a list of agencies
     getAllAgenciesController,
+
+    // search agency
+    searchAgenciesController,
 
     // get one agency
     getOneAgencyController,

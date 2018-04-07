@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Button, Header, Segment, Step, Icon } from 'semantic-ui-react'
+import { Button,Image,Label, Header, Segment, Step, Icon } from 'semantic-ui-react'
 
 export default class HomeView extends Component {
     constructor(props) {
@@ -27,6 +27,8 @@ export default class HomeView extends Component {
                 <Header size='huge'>
                     Welcome to Whitebird HELP book
                 </Header>
+                <Image src='/image1.jpg' size='large' />
+                <Image src='/image2.jpg' size='large' />
 
                 <Header size='large'>
                     <i>This site is currently under development.</i>

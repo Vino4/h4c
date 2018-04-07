@@ -5,6 +5,6 @@ export default UserAuthWrapper({
     /* state.authentication is implemented using immutable */
     authSelector: state => state.authentication.get("jwtToken"),
     redirectAction: routerActions.replace,
-    failureRedirectPath: '/login',
+    failureRedirectPath: '/activity',
     wrapperDisplayName: 'UserIsAuthenticated'
 })

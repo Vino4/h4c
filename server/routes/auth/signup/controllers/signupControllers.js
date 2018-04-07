@@ -6,12 +6,13 @@ const UserLoginInfoValidator = require("../../../../models/").UserLoginInfoValid
 const createErrorHandler = require("../../../utils").createErrorHandler;
 
 
-const properties = ['name', 'email', 'password'];
+const properties = ['Name', 'Email', 'Password'];
 
 
 function validateInput(payload, properties) {
+    console.log(payload);
     return validateFormat(payload, properties)
-        && UserLoginInfoValidator(payload.name, payload.email, payload.password);
+        && UserLoginInfoValidator(payload.Name, payload.Email, payload.Password);
 }
 
 
@@ -28,19 +29,21 @@ function validateFormat(payload, properties){
 function signupController (req, res){
     const payload = req.body;
 
-
+    console.log("preValidation");
+    console.log(payload);
     // check if payload is validate
     if (!validateInput(payload, properties)) {
         const errorMessage = 'please give the correct payload';
         createErrorHandler(res, HttpStatus.BAD_REQUEST)(errorMessage);
         return;
     }
+    console.log("postValidation");
 
 
     const newUser = new User({
-        name: payload.name,
-        email: payload.email,
-        password: payload.password,
+        Name: payload.Name,
+        Email: payload.Email,
+        Password: payload.Password,
     });
 
     newUser.save()
@@ -55,6 +58,7 @@ function signupController (req, res){
         )
         .catch(
             function (err) {
+                console.log(err);
                 const errorMessage = "Not Accept duplicate email";
                 createErrorHandler(res, HttpStatus.NOT_ACCEPTABLE) (errorMessage);
             }

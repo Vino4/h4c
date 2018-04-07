@@ -37,7 +37,8 @@ export class ActivityView extends React.Component {
     }
 
     componentWillMount() {
-        this.props.fetchParticipantList(this.props.activityId);
+        //this.props.fetchParticipantList(this.props.activityId);
+        this.props.fetchAgencies();
     }
     render (){
         const itemsPerRow = 10;
@@ -62,6 +63,7 @@ export class ActivityView extends React.Component {
             return groups;
         };
 
+
         let getGroupCards = (groups) => {
             return (
                 groups.map(
@@ -85,17 +87,10 @@ export class ActivityView extends React.Component {
                 )
             )
         };
+        console.log("agency prop: ", this.props.agencies.get(0));
         return (
             <div>
-                <ParticipantListSidebar
-                        key={"ParticipantListSidebar_" + this.props.participants.size}
-                        participants={ this.props.participants }
-                        setCurrentlySelected={(v) => {console.log(v)}}
-			emailParticipants={this.props.emailParticipants}
-                        updateParticipantGroupNumber={ this.props.updateParticipantGroupNumber }
-                        filter={this.props.filter}
-                        activityId={ this.props.activityId }
-                />
+                <div>{this.props.agencies.getIn(0).get("Service_Name")}</div>
                 <ActivityCardViewWrapper setCurrentlySelected={(v) => console.log(v) }>
                 {
                     (this.props.participants.size > 0) &&

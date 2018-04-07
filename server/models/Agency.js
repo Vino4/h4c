@@ -28,10 +28,12 @@ let AgencySchema = Schema({
         type: String,
         default: "",
         required: true,
+        index: true,
     },
     Other_Names: {
         type: [String],
         default: [""],
+        index: true,
     },
 
 
@@ -62,18 +64,22 @@ let AgencySchema = Schema({
     Physical_Site_Address: {
         type: String,
         default: "",
+        index: true,
     },
     Physical_Site_City: {
         type: String,
         default: "",
+        index: true,
     },
     Physical_Site_State: {
         type: String,
         default: "",
+        index: true,
     },
     Physical_Site_Zip: {
         type: String,
         default: "",
+        index: true,
     },
 
 
@@ -81,6 +87,7 @@ let AgencySchema = Schema({
     Web_Address: {
         type: String,
         default: "",
+        index: true,
     },
 
 
@@ -100,8 +107,9 @@ let AgencySchema = Schema({
         default: "",
     },
     Languages_Spoken: {
-        type: String,
-        default: "",
+        type: [String],
+        default: [""],
+        index: true,
     },
 
 
@@ -120,6 +128,7 @@ let AgencySchema = Schema({
     Intended_Participants: {
         type: String,
         default: "",
+        index: true,
     },
 
 
@@ -128,6 +137,7 @@ let AgencySchema = Schema({
     Description_of_Service: {
         type: String,
         default: "",
+        index: true,
     },
 
 
@@ -135,6 +145,7 @@ let AgencySchema = Schema({
     Location: {
         type: String,
         default: "",
+        index: true,
     },
 
 
@@ -143,11 +154,13 @@ let AgencySchema = Schema({
     Tag: {
         type: String,
         default: "",
+        index: true,
     },
 
     Sub_Tag: {
         type: String,
         default: "",
+        index: true,
     },
 
 
@@ -175,6 +188,18 @@ let AgencySchema = Schema({
         default: [""],
     },
 });
+
+AgencySchema.index({
+  Service_Name: "text",
+  Tag: "text",
+  Sub_Tag: "text",
+  Description_of_Service: "text",
+  Physical_Site_Address: "text",
+  Physical_Site_City: "text",
+  Physical_Site_State: "text",
+  Physical_Site_Zip: "text",
+  Intended_Participants: "text"
+}, { name: "AgencyIndex" });
 
 AgencySchema.pre('save', function(next){
     let agency = this;
@@ -336,7 +361,7 @@ function AgencyValidator(
             validateEmail(Email) &&
             validateEmailArray(Other_Emails) &&
             validateString(ADA_Access) &&
-            validateString(Languages_Spoken) &&
+            validateStringArray(Languages_Spoken) &&
             validatePhone(WBCrisisLine) &&
             validateString(Hours_of_Operation) &&
             validateString(Intended_Participants) &&

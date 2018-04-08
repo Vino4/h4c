@@ -3,34 +3,34 @@ const createErrorHandler = require("../../utils").createErrorHandler;
 const HttpStatus = require("http-status-codes");
 
 
-function validateInput(req) {
-    return validateParameters(req.params);
+function validateInput(params) {
+    return validateParameters(params);
 }
 
 function validateParameters(prm) {
-    return prm.hasOwnProperty('RequestId') && typeof prm.RequestId === 'string';
+    return prm.hasOwnProperty('requestId') && typeof prm.requestId === 'string';
 }
 
 
 module.exports = function (req, res, next) {
 
-    if (!validateInput(req)) {
+    if (!validateInput(req.params)) {
         const errorMessage = 'please give the correct payload';
         createErrorHandler(res, HttpStatus.BAD_REQUEST)(errorMessage);
         return;
     }
 
     Request.findOne(
-        {_id: req.params.RequestId, _creator: req.user._id, isDeleted: false})
+        {_id: req.params.requestId})
         // .select("name totalCapacity groupCapacity endDate participants")
         .exec()
-        .then(function (Request) {
-            if (Request !== null) {
+        .then(function (request) {
+            if (request !== null) {
                 return res.json({
-                    Request: Request
+                    request: request
                 });
             } else {
-                const errorMessage = "Cannot find an Request has id " + req.params.RequestId;
+                const errorMessage = "Cannot find an Request has id " + req.params.requestId;
                 return createErrorHandler(res, HttpStatus.NOT_FOUND)(errorMessage);
             }
         })

@@ -5,7 +5,7 @@ const express = require('express')
 
 // the second argument is the authentication middleware, has to be passed
 requestRouter.get('/', authenticationMiddleware, requestControllers.getAllRequestsController);
-requestRouter.post('/', authenticationMiddleware, requestControllers.createRequestController);
+requestRouter.post('/', requestControllers.createRequestController);
 
 // operations regarding to a specific survey
 requestRouter.get('/:requestId', authenticationMiddleware, requestControllers.getOneRequestController);

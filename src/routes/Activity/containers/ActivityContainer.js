@@ -19,6 +19,7 @@ const mapDispatchToProps = (dispatch) => ({
     toggleLock: Actions.groupLockActions.toggleLock(dispatch),
     emailParticipants: Actions.emailParticipantsActions.emailParticipants(dispatch),
     fetchAgencies: Actions.fetchAgenciesActions.fetchAgencies(dispatch),
+    searchAgencies: Actions.searchAgenciesActions.searchAgencies(dispatch),
 });
 
 const mapStateToProps = (state, ownProps) => {
@@ -39,7 +40,7 @@ const mapStateToProps = (state, ownProps) => {
 
         agencies: state.activity.get("agencies"),
 
-        isLoading: state.activity.get("isLoading"),
+        agenciesIsLoading: state.activity.get("agenciesIsLoading"),
     }
 };
 

@@ -7,12 +7,11 @@ const User = require("../../../models/").User;
 const createErrorHandler = require("../../utils").createErrorHandler;
 
 
-const RequestProperties = ['title', 'questions'];
+const RequestProperties = ['_Agency', 'Email'];
 
 function validateInput(req) {
     let payload = req.body;
-    return validateFormat(payload, RequestProperties)
-        && RequestValidator(payload.title, payload.questions);
+    return validateFormat(payload, RequestProperties);
 }
 
 
@@ -24,6 +23,16 @@ function validateFormat(payload, properties){
     return res;
 }
 
+// from first page of google search
+function makeid() {
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+  for (var i = 0; i < 40; i++)
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+  return text;
+}
 
 module.exports = function (req, res, next) {
     if (!validateInput(req)) {
@@ -31,44 +40,18 @@ module.exports = function (req, res, next) {
         createErrorHandler(res, HttpStatus.BAD_REQUEST)(errorMessage);
         return;
     }
-
-    const userId = req.user._id;
     const payload = req.body;
 
     const newRequest = new Request({
-        _creator: userId,
-        title: payload.title,
-        questions: payload.questions
+        _Agency:  payload._Agency,
+        Verification_Code: makeid(),
+        Email:payload.Email,
+        Created_At:Date.now()
     });
 
     newRequest.save()
-        .then(function (newRequest) {
-            const newRequestId = newRequest._id;
-
-            // push the Request id in User's Requests
-            User.findOneAndUpdate(
-                {_id: userId},
-                {
-                    // add Request id to user.Requests
-                    $push: {
-                        "Requests": {_id: newRequestId}
-                    },
-
-                    // set the last modfied date
-                    $set: {
-                        "lastModifiedTime": Date.now()
-                    }
-                })
-                .exec()
-                .then(function (user) {
-                    return res.json({
-                        Request: newRequest
-                    })
-                })
-                .catch(createErrorHandler(res, HttpStatus.NOT_FOUND));
-
-            // push the whole Request into Activity's Request
-
+        .then(function (agency) {
+            return res.status(HttpStatus.OK).json({})
         })
-        .catch(function(error){console.log(error)});
+        .catch(createErrorHandler(res, HttpStatus.INTERNAL_SERVER_ERROR))
 };

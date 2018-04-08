@@ -1,11 +1,11 @@
 import React from 'react'
-import {Grid, Segment, Button} from 'semantic-ui-react'
+import {Grid, Loader, Segment, Sticky, Button} from 'semantic-ui-react'
 import {DragDropContext} from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import ParticipantListSidebar from "./ParticipantListSidebar"
-
+import AgencySegment from './AgencySegment'
 import {Map, List, Set} from 'immutable';
-
+import SearchBar from './SearchBar'
 import GroupCard from "./GroupCard/GroupCard"
 import FilterMenu from "./FilterMenu"
 
@@ -38,8 +38,12 @@ export class ActivityView extends React.Component {
 
     componentWillMount() {
         //this.props.fetchParticipantList(this.props.activityId);
-        this.props.fetchAgencies();
+       this.props.fetchAgencies();
+        //this.props.searchAgencies("AARP");
     }
+
+    
+
     render (){
         const itemsPerRow = 10;
         const cardsPerRow = 1;
@@ -87,11 +91,27 @@ export class ActivityView extends React.Component {
                 )
             )
         };
-        console.log("agency prop: ", this.props.agencies.get(0));
+ 
+        console.log("new prop:", this.props.agencies.get(0));
+        let agencyList = [];
+
+        this.props.agencies.map(
+          (agency, i) => {
+            agencyList.push(<AgencySegment key={"para" + i} name={agency.get("Service_Name")} hours={agency.get("Hours_Of_Operation")} details={agency.get("Description_Of_Service")} />)
+          }
+        )
+
+
+        let searchBar = <SearchBar search={this.props.searchAgencies} />
+
+        console.log("search bar:: ", searchBar);
+
         return (
             <div>
-                <div>{this.props.agencies.getIn(0).get("Service_Name")}</div>
-                <ActivityCardViewWrapper setCurrentlySelected={(v) => console.log(v) }>
+                {searchBar}
+                <Loader active={this.props.agenciesIsLoading} inline='center' />
+                {agencyList}
+		<ActivityCardViewWrapper setCurrentlySelected={(v) => console.log(v) }>
                 {
                     (this.props.participants.size > 0) &&
                     <FilterMenu activityId={ this.props.activityId }

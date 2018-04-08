@@ -5,6 +5,7 @@ import * as userMatchingActionsHandlers from "./userMatchingActionsHandlers"
 import * as groupLockActionsHandlers from "./groupLockActionsHandlers"
 import * as filterParticipantsActionsHandlers from "./filterParticipantsActionsHandlers"
 import * as fetchAgenciesActionsHandlers from "./fetchAgenciesActionsHandlers"
+import * as searchAgenciesActionsHandlers from "./searchAgenciesActionsHandlers"
 
 export {
     fetchParticipantListActionsHandlers,
@@ -13,5 +14,6 @@ export {
     userMatchingActionsHandlers,
     groupLockActionsHandlers,
     fetchAgenciesActionsHandlers,  
+    searchAgenciesActionsHandlers,  
     filterParticipantsActionsHandlers
 }

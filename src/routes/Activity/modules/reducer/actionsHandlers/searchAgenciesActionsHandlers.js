@@ -1,9 +1,9 @@
 import {Map, Set, List, OrderedSet} from 'immutable';
-let handleFetchAgencies = (state, payload) => {
+let handleSearchAgencies = (state, payload) => {
     let newState = state.set("agenciesIsLoading", true);
     return newState;
 };
-let handleFetchAgenciesSuccess = (state, payload) => {
+let handleSearchAgenciesSuccess = (state, payload) => {
     let Agencies = List([]);
     console.log("about to open payload:\n", payload);
     payload.agencies.forEach((agency) => {
@@ -26,20 +26,19 @@ let handleFetchAgenciesSuccess = (state, payload) => {
 
     console.log("agencies: ", Agencies);
     let newState = state.set("agencies", Agencies);
-
     newState = newState.set("agenciesIsLoading", false);
     console.log("newState: ", newState.get("agencies"));
 
     return newState
 };
 
-let handleFetchAgenciesFailure = (state, payload) => {
+let handleSearchAgenciesFailure = (state, payload) => {
     let newState = state.set("agenciesIsLoading", false);
     return newState;
 };
 
 export {
-    handleFetchAgencies,
-    handleFetchAgenciesSuccess,
-    handleFetchAgenciesFailure
+    handleSearchAgencies,
+    handleSearchAgenciesSuccess,
+    handleSearchAgenciesFailure
 }

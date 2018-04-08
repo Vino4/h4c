@@ -1,20 +1,20 @@
-const User = require("../../../models/").User;
+const Request = require("../../../models/").Request;
 const createErrorHandler = require("../../utils").createErrorHandler;
 const HttpStatus = require("http-status-codes");
 
 module.exports = function (req, res, next) {
     // no input check here
-
-    User.findOne({_id: req.user._id})
-        .populate({
-            path: 'Requests',
-            select: 'title createdAt questions color',
-            match: {isDeleted: false}
+    Request.find({})
+        .select({
+          "Created_At": 1,
+          "_Agency": 1,
+          "Verified": 1,
+          "Email": 1,
         })
         .exec()
-        .then(function (user) {
+        .then(function (requests) {
             return res.json({
-                Requests: user.Requests,
+                requests: requests,
             });
         })
         .catch(createErrorHandler(res, HttpStatus.INTERNAL_SERVER_ERROR));

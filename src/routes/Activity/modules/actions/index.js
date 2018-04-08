@@ -6,6 +6,7 @@ import * as userMatchingActions from "./userMatchingActions"
 import * as groupLockActions from "./groupLockActions"
 import * as filterParticipantsActions from "./filterParticipantsActions"
 import * as fetchAgenciesActions from "./fetchAgenciesActions"
+import * as searchAgenciesActions from "./searchAgenciesActions"
 
 export {
     fetchParticipantListActions,
@@ -15,5 +16,6 @@ export {
     groupLockActions,
     emailParticipantsActions,
     filterParticipantsActions,
-    fetchAgenciesActions
+    fetchAgenciesActions,
+    searchAgenciesActions
 }

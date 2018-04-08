@@ -3,8 +3,8 @@ import * as Actions from "../actions"
 import * as ActionsHandlers from "./actionsHandlers"
 
 const initialState = Map({
-    isLoading: false,
-    failedToLoad: false,
+    agenciesIsLoading: false,
+    agenciesFailedToLoad: false,
 
     agencyTemplate: Map({
 
@@ -57,6 +57,15 @@ export default function activityReducer (state = initialState, action) {
             return ActionsHandlers.fetchAgenciesActionsHandlers.handleFetchAgenciesSuccess(state, action.payload)
         case Actions.fetchAgenciesActions.FETCH_AGENCIES_FAILURE:
             return ActionsHandlers.fetchAgenciesActionsHandlers.handleFetchAgenciesFailure(state, action.payload)
+
+
+        case Actions.searchAgenciesActions.SEARCH_AGENCIES:
+            return ActionsHandlers.searchAgenciesActionsHandlers.handleSearchAgencies(state, action.payload)
+        case Actions.searchAgenciesActions.SEARCH_AGENCIES_SUCCESS:
+            return ActionsHandlers.searchAgenciesActionsHandlers.handleSearchAgenciesSuccess(state, action.payload)
+        case Actions.searchAgenciesActions.SEARCH_AGENCIES_FAILURE:
+            return ActionsHandlers.searchAgenciesActionsHandlers.handleSearchAgenciesFailure(state, action.payload)
+
 
         /* reduce group locks */
         case Actions.groupLockActions.TOGGLE_LOCK:

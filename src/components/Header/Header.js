@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router'
-import { Button, Dropdown, Icon, Menu } from 'semantic-ui-react'
+import { Button, Dropdown, Icon, Menu, Image } from 'semantic-ui-react'
 
 class _SettingMenu extends React.Component {
     constructor () {
@@ -93,8 +93,11 @@ class Header extends React.Component {
         return (
             <Menu size='small' attached="top" fixed="top"
                   style={ {height: '55px', zIndex: 1500}}>
-                <Menu.Item name='Whitebird HELP Book' onClick={this.handleItemClick}/>
-            </Menu>
+                        <Image src='/image1.jpg'  style ={{height:48,width:48,marginTop:3, marginLeft:3} }  />
+
+                <Menu.Item onClick={this.handleItemClick}>
+            <p style = {{fontWeight:'bold'}} > Whitebird HELP BOOK</p>
+           </Menu.Item>  </Menu>
         )
     }
 }
